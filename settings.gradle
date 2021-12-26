@@ -3,6 +3,19 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+    }
+    resolutionStrategy {
+        eachPlugin {
+            // Use `resolutionStrategy` to define the Hilt plugin and navigation safe args and its coordinate
+            if (requested.id.id == "dagger.hilt.android.plugin") {
+                useModule('com.google.dagger:hilt-android-gradle-plugin:2.38.1')
+            }
+            if (requested.id.id == "androidx.navigation.safeargs.kotlin") {
+                useModule('androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5')
+            }
+        }
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +23,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "Tapsell-Android-Task"

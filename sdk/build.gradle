@@ -1,6 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id ("org.jetbrains.kotlin.kapt")
+    id ("org.jetbrains.kotlin.plugin.parcelize")
+    id ("dagger.hilt.android.plugin")
+    id ("com.google.devtools.ksp")
 }
 
 android {
@@ -12,6 +16,15 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField "String", "API_BASE_URL", "${API_BASE_URL}"
+        buildConfigField "String", "TAPSELL_KEY", "${TAPSELL_KEY}"
+        buildConfigField "String", "TAPSELL_REWARDED_VIDEO", "${TAPSELL_REWARDED_VIDEO}"
+        buildConfigField "String", "TAPSELL_INTERSTITIAL", "${TAPSELL_INTERSTITIAL}"
+        buildConfigField "String", "TAPSELL_NATIVE_BANNER", "${TAPSELL_NATIVE_BANNER}"
+        buildConfigField "String", "TAPSELL_NATIVE_VIDEO", "${TAPSELL_NATIVE_VIDEO}"
+        buildConfigField "String", "TAPSELL_STANDARD_BANNER", "${TAPSELL_STANDARD_BANNER}"
+        buildConfigField "String", "TAPSELL_VAST_PREROLL", "${TAPSELL_VAST_PREROLL}"
     }
 
     buildTypes {
@@ -31,10 +44,125 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation ("androidx.core:core-ktx:1.7.0")
+    implementation ("androidx.appcompat:appcompat:1.4.0")
+    implementation ("com.google.android.material:material:1.4.0")
+    implementation("androidx.activity:activity-ktx:1.4.0")
+    implementation("androidx.fragment:fragment-ktx:1.4.0")
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.2")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+    implementation("androidx.annotation:annotation:1.4.0-alpha01")
+    implementation("com.google.devtools.ksp:symbol-processing-api:1.6.10-1.0.2")
+
+    //region LifeCycle
+    def lifecycleVersion = "2.4.0"
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    //endregion
+
+    //region Navigation
+    def navigationVersion = "2.3.5"
+    implementation ("androidx.navigation:navigation-runtime-ktx:$navigationVersion")
+    implementation ("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation ("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
+    //endregion
+
+
+    //region Dependency Injection
+    def hilt_version = "2.38.1"
+    implementation ("com.google.dagger:hilt-android:$hilt_version")
+    kapt ("com.google.dagger:hilt-compiler:$hilt_version")
+    implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
+    androidTestImplementation ("com.google.dagger:hilt-android-testing:$hilt_version")
+    kaptAndroidTest ("com.google.dagger:hilt-android-compiler:$hilt_version")
+    //endregion
+
+    //region Coroutines
+    def coroutinesVersion = "1.6.0"
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+    //endregion
+
+    //region Retrofit
+    def retrofit_version = "2.9.0"
+    def okHttp_version = "4.9.1"
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-moshi:$retrofit_version")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation ("com.squareup.okhttp3:logging-interceptor:$okHttp_version")
+    implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
+    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.11.0")
+    //endregion
+
+    //region DB
+    def roomVersion = "2.4.0"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    implementation("androidx.room:room-paging:$roomVersion")
+    testImplementation("androidx.room:room-testing:$roomVersion")
+    //endregion
+
+    //region ads
+    implementation ("ir.tapsell.plus:tapsell-plus-sdk-android:2.1.5")
+    implementation ("com.unity3d.ads:unity-ads:3.7.5")
+    implementation ("com.chartboost:chartboost-sdk:8.2.1")
+    implementation ("com.google.android.gms:play-services-ads:20.5.0")
+    implementation ("com.applovin:applovin-sdk:10.3.4")
+    implementation ("com.adcolony:sdk:4.6.5")
+    //endregion
+
+    // region ExoPlayer
+    def exoPlayerVersion = "2.16.1"
+    implementation ("com.google.android.exoplayer:exoplayer-core:$exoPlayerVersion")
+    implementation ("com.google.android.exoplayer:exoplayer-ui:$exoPlayerVersion")
+    implementation ("com.google.android.exoplayer:extension-ima:$exoPlayerVersion")
+    //endregion
+
+
+    // region android local test
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation("org.mockito:mockito-core:3.11.2")
+    testImplementation "org.mockito:mockito-inline:3.11.2"
+    testImplementation("androidx.test:core:1.4.0")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+    testImplementation("app.cash.turbine:turbine:0.2.1")
+    testImplementation ("org.robolectric:robolectric:4.7.3")
+    testImplementation ("com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-alpha01")
+    def mockkVersion = "1.12.1"
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("io.mockk:mockk-common:$mockkVersion")
+    testImplementation("io.mockk:mockk-agent-jvm:$mockkVersion")
+    //endregion
+
+    //region Instrumented Testing
+    androidTestImplementation("androidx.test:runner:1.4.0")
+    androidTestImplementation("androidx.test:rules:1.4.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
+    androidTestImplementation("org.mockito:mockito-core:3.11.2")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-agent-jvm:$mockkVersion"
+
+    //Espresso Instrumented Testing
+    def espressoVersion = "3.4.0"
+    implementation("androidx.test.espresso:espresso-idling-resource:$espressoVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:$espressoVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:$espressoVersion")
+    androidTestImplementation("androidx.test.espresso.idling:idling-concurrent:$espressoVersion")
+
+    androidTestImplementation("com.google.truth:truth:1.0.1")
+    androidTestImplementation("com.google.android.material:material:1.6.0-alpha01")
+    androidTestImplementation("androidx.appcompat:appcompat:1.4.0")
+    androidTestImplementation("androidx.recyclerview:recyclerview:1.2.1")
+    androidTestImplementation("androidx.navigation:navigation-testing:$navigationVersion")
+    debugImplementation("androidx.fragment:fragment-testing:1.4.0")
+    testImplementation("androidx.room:room-testing:2.4.0")
+    //endregion
 }

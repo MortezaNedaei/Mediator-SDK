@@ -6,9 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
 import org.tapsell.app.R
+import org.tapsell.sdk.addmediator.AddMediator
+import org.tapsell.sdk.addmediator.IAddMediator
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
+
 
     companion object {
         fun newInstance() = MainFragment()

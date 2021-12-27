@@ -6,7 +6,7 @@ import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-internal data class RewardedWaterfallResponse(
+data class RewardedWaterfallResponse(
     @Json(name = "type")
     val type: String,
     @Json(name = "waterfall")

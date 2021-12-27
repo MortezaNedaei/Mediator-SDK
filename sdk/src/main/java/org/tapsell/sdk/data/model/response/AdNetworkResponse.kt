@@ -6,9 +6,7 @@ import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-internal data class AdNetworkResponse(
-    @Json(name = "id")
-    val id: String,
-    @Json(name = "name")
-    val name: String
+data class AdNetworkResponse(
+    @Json(name = "adNetworks")
+    val adNetworks: List<AdNetworkItem>,
 ) : Parcelable

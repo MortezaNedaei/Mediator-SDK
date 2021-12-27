@@ -8,18 +8,18 @@ import retrofit2.Response
 import retrofit2.http.GET
 
 
-internal interface ApiService {
+interface ApiService {
 
     /**
      * get all AdNetworks list
      */
     @GET(Constants.ENDPOINT_AD_NETWORKS)
-    suspend fun getAdNetworks(): Response<List<AdNetworkResponse>>
+    suspend fun getAdNetworks(): Response<AdNetworkResponse>
 
     /**
      * get all Rewarded Waterfalls list
      */
     @GET(Constants.ENDPOINT_REWARDED_WATERFALL)
-    suspend fun getRewardedWaterfalls(): Response<List<RewardedWaterfallResponse>>
+    suspend fun getRewardedWaterfalls(): Response<RewardedWaterfallResponse>
 
 }

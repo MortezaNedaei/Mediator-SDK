@@ -5,6 +5,6 @@ internal object Constants {
     const val PreferencesName = "tapsell.org"
     const val DBName = "tapsell.db"
 
-    const val ENDPOINT_AD_NETWORKS = "v1/adnetworks"
-    const val ENDPOINT_REWARDED_WATERFALL = "v1/rewarded"
+    const val ENDPOINT_AD_NETWORKS = "api/v1/adnetworks"
+    const val ENDPOINT_REWARDED_WATERFALL = "api/v1/rewarded"
 }

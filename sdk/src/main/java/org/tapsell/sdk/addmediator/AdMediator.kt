@@ -1,5 +1,6 @@
 package org.tapsell.sdk.addmediator
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import kotlinx.coroutines.CoroutineScope
@@ -8,14 +9,18 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import org.tapsell.sdk.addmediator.tapsell.TapsellAdsManager
+import org.tapsell.sdk.addmediator.unity.UnityAdsManager
 import org.tapsell.sdk.data.datasource.WaterfallDataSource
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.sdk.data.model.enums.AdType
 import org.tapsell.sdk.data.model.response.AdNetworkItem
+import org.tapsell.sdk.data.model.response.AdRequestResponse
 import org.tapsell.sdk.data.repository.AdNetworkRepositoryImpl
 import org.tapsell.sdk.di.DatabaseModule
 
 
-class AdMediator private constructor() : IAddMediator {
+class AdMediator private constructor() : IAdMediator {
 
     companion object {
         const val TAG = "AddMediator"
@@ -29,21 +34,61 @@ class AdMediator private constructor() : IAddMediator {
     }
 
     override fun initialize(context: Context) {
+
         CoroutineScope(Dispatchers.IO).launch {
+
             initializeDatabase(context)
-            getAndInitializeAdNetworks(context)
-            fetchAndStoreWaterfalls()
+
+            fetchAndInitializeAdNetworks(context)
+
+            deleteAllExpiredWaterfalls()
+
+            fetchAndStoreWaterfallsIfEmpty()
         }
 
     }
 
-    override fun requestAd() {
+    override fun requestAd(activity: Activity) {
+        CoroutineScope(Dispatchers.IO).launch {
+            WaterfallDataSource.getActiveWaterfallOrNull()?.let { waterfall: WaterfallEntity ->
+                when (waterfall.name) {
+                    AdType.UNITY.title -> {
+                        UnityAdsManager.requestAd(waterfall.id, object : IAdRequestListener {
+                            override fun onSuccess(response: AdRequestResponse) {
+                                Log.i(TAG, "requestAd: Success:${response.toString()}")
+                            }
+
+                            override fun onError(e: String) {
+                                Log.i(TAG, "Error: requestAd:$e")
+                            }
+                        })
+                    }
+                    AdType.TAPSELL.title -> {
+                        TapsellAdsManager.requestAd(
+                            activity,
+                            waterfall.id,
+                            object : IAdRequestListener {
+                                override fun onSuccess(response: AdRequestResponse) {
+                                    Log.i(TAG, "requestAd: Success:${response.toString()}")
+                                }
+
+                                override fun onError(e: String) {
+                                    Log.i(TAG, "Error: requestAd:$e")
+                                }
+                            })
+                    }
+                    else -> {
+                        throw IllegalStateException("this ad type does not specified")
+                    }
+                }
+            }
+        }
     }
 
-    override fun showAdd() {
+    override fun showAdd(activity: Activity) {
     }
 
-    private suspend fun getAndInitializeAdNetworks(context: Context) {
+    private suspend fun fetchAndInitializeAdNetworks(context: Context) {
         val adNetworks = AdNetworkRepositoryImpl.getAdNetworks()
         adNetworks.onEach { adNetworkResponse: AdNetworkItem ->
             with(adNetworkResponse) {
@@ -76,7 +121,14 @@ class AdMediator private constructor() : IAddMediator {
         DatabaseModule.provideDatabase(context)
     }
 
-    private suspend fun fetchAndStoreWaterfalls() {
+    private suspend fun fetchAndStoreWaterfallsIfEmpty() {
+        if (WaterfallDataSource.isActiveWaterfall()) {
+            return
+        }
         WaterfallDataSource.fetchAndStore()
+    }
+
+    private suspend fun deleteAllExpiredWaterfalls() {
+        WaterfallDataSource.deleteAllExpiredRecords()
     }
 }

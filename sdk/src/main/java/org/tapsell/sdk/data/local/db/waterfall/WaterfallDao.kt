@@ -1,4 +1,4 @@
-package org.tapsell.sdk.data.local.db.user
+package org.tapsell.sdk.data.local.db.waterfall
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface WaterfallDao {
 
     @Query("SELECT * FROM waterfall")
-    fun getAll(): Flow<WaterfallEntity>
+    fun getAll(): Flow<List<WaterfallEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<WaterfallEntity>)
@@ -25,6 +25,6 @@ interface WaterfallDao {
     @Delete
     suspend fun delete(waterfallEntity: WaterfallEntity)
 
-    @Query("Delete FROM waterfall")
+    @Query("Delete FROM waterfall  WHERE timestamp <= datetime('now', '-1 hours')")
     suspend fun deleteAll()
 }

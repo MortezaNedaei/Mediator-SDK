@@ -15,17 +15,17 @@ import org.tapsell.sdk.data.repository.AdNetworkRepositoryImpl
 import org.tapsell.sdk.di.DatabaseModule
 
 
-class AddMediator private constructor() : IAddMediator {
+class AdMediator private constructor() : IAddMediator {
 
     companion object {
         const val TAG = "AddMediator"
 
         @Volatile
-        private var INSTANCE: AddMediator? = null
+        private var INSTANCE: AdMediator? = null
 
         @Synchronized
-        fun getInstance(): AddMediator =
-            INSTANCE ?: AddMediator().also { INSTANCE = it }
+        fun getInstance(): AdMediator =
+            INSTANCE ?: AdMediator().also { INSTANCE = it }
     }
 
     override fun initialize(context: Context) {

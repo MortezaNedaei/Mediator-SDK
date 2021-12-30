@@ -1,4 +1,4 @@
-package org.tapsell.sdk.data.local.db.user
+package org.tapsell.sdk.data.local.db.waterfall
 
 import android.os.Parcelable
 

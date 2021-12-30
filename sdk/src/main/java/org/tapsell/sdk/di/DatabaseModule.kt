@@ -3,7 +3,7 @@ package org.tapsell.sdk.di
 import android.content.Context
 import androidx.room.Room
 import org.tapsell.sdk.data.local.db.AppDatabase
-import org.tapsell.sdk.data.local.db.user.WaterfallDao
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallDao
 import org.tapsell.sdk.utils.Constants
 
 

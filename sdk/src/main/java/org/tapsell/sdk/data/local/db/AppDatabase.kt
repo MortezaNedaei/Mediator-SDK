@@ -2,8 +2,8 @@ package org.tapsell.sdk.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import org.tapsell.sdk.data.local.db.user.WaterfallDao
-import org.tapsell.sdk.data.local.db.user.WaterfallEntity
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallDao
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 
 
 @Database(

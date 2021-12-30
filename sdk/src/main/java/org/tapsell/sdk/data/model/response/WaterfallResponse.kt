@@ -4,7 +4,7 @@ package org.tapsell.sdk.data.model.response
 import android.os.Parcelable
 import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
-import org.tapsell.sdk.data.local.db.user.WaterfallEntity
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.sdk.data.mapper.WaterfallMapper
 
 @Parcelize

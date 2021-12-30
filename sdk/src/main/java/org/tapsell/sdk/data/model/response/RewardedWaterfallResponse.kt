@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.parcelize.Parcelize
-import org.tapsell.sdk.data.local.db.user.WaterfallEntity
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.sdk.data.mapper.WaterfallMapper
 
 @Parcelize

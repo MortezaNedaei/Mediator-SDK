@@ -1,11 +1,11 @@
 package org.tapsell.sdk.data.repository
 
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
-import org.tapsell.sdk.data.local.db.user.WaterfallDao
-import org.tapsell.sdk.data.local.db.user.WaterfallEntity
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallDao
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.sdk.di.DatabaseModule
 
 
@@ -16,7 +16,7 @@ object LocalWaterfallRepositoryImpl : LocalWaterfallsRepository {
     }
 
 
-    override suspend fun getAll(): LiveData<List<WaterfallEntity>> = withContext(Dispatchers.IO) {
+    override suspend fun getAll(): Flow<List<WaterfallEntity>> = withContext(Dispatchers.IO) {
         dao.getAll()
     }
 

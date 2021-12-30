@@ -15,20 +15,24 @@ import org.tapsell.sdk.data.repository.AdNetworkRepositoryImpl
 import org.tapsell.sdk.di.DatabaseModule
 
 
-class AddMediator constructor(
-    private val context: Context
-) : IAddMediator {
-
+class AddMediator private constructor() : IAddMediator {
 
     companion object {
         const val TAG = "AddMediator"
+
+        @Volatile
+        private var INSTANCE: AddMediator? = null
+
+        @Synchronized
+        fun getInstance(): AddMediator =
+            INSTANCE ?: AddMediator().also { INSTANCE = it }
     }
 
     override fun initialize(context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            initializeDatabase()
-            getAndInitializeAdNetworks()
-            getAndStoreWaterfalls()
+            initializeDatabase(context)
+            getAndInitializeAdNetworks(context)
+            fetchAndStoreWaterfalls()
         }
 
     }
@@ -39,18 +43,22 @@ class AddMediator constructor(
     override fun showAdd() {
     }
 
-    private suspend fun getAndInitializeAdNetworks() {
+    private suspend fun getAndInitializeAdNetworks(context: Context) {
         val adNetworks = AdNetworkRepositoryImpl.getAdNetworks()
         adNetworks.onEach { adNetworkResponse: AdNetworkItem ->
             with(adNetworkResponse) {
-                initializeAdNetworks(name, id)
+                initializeAdNetworks(context, name, id)
             }
         }.catch { e: Throwable ->
             Log.e("Error: $TAG :", e.message?.toString() ?: "")
         }.collect()
     }
 
-    private fun initializeAdNetworks(adNetworkName: String, adNetworkId: String) {
+    private fun initializeAdNetworks(
+        context: Context,
+        adNetworkName: String,
+        adNetworkId: String
+    ) {
         when (adNetworkName) {
             AdType.UNITY.title -> {
                 UnityAdsManager.initialize(context, adNetworkId)
@@ -64,11 +72,11 @@ class AddMediator constructor(
         }
     }
 
-    private fun initializeDatabase() {
+    private fun initializeDatabase(context: Context) {
         DatabaseModule.provideDatabase(context)
     }
 
-    private suspend fun getAndStoreWaterfalls() {
+    private suspend fun fetchAndStoreWaterfalls() {
         WaterfallDataSource.fetchAndStore()
     }
 }

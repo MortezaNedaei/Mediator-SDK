@@ -7,4 +7,6 @@ internal object Constants {
 
     const val ENDPOINT_AD_NETWORKS = "api/v1/adnetworks"
     const val ENDPOINT_REWARDED_WATERFALL = "api/v1/rewarded"
+
+    const val EPOCH_HOUR = 60 * 60 * 1000
 }

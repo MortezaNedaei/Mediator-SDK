@@ -1,6 +1,6 @@
 package org.tapsell.sdk.data.mapper
 
-import org.tapsell.sdk.data.local.db.user.WaterfallEntity
+import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.sdk.data.model.response.WaterfallResponse
 
 

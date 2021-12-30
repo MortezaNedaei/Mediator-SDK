@@ -1,14 +1,14 @@
 package org.tapsell.sdk.data.local.db.user
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface WaterfallDao {
 
     @Query("SELECT * FROM waterfall")
-    fun getAll(): LiveData<List<WaterfallEntity>>
+    fun getAll(): Flow<WaterfallEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<WaterfallEntity>)

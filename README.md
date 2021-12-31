@@ -7,8 +7,8 @@ mediator for various advertisement networks (TapsellAds and UnityAds)
 
 <a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/1.png" width="350" height="700"></a>
 <a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/2.png" width="350" height="700"></a>
-<a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/3.png" width="350" height="700"></a>
-<a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/4.png" width="350" height="700"></a>
+<a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/3.png" width="1000" height="200"></a>
+<a href="url"><img src="https://github.com/MortezaNedaei/Mediator-SDK/blob/dev/art/4.png" width="1000" height="200"></a>
 
 ## Sub Tasks
 

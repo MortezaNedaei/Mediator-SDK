@@ -23,16 +23,16 @@ internal object WaterfallDataSource {
 
     suspend fun getActiveWaterfallOrNull(): WaterfallEntity? {
         var activeWaterfall: WaterfallEntity? = null
-        readAllRecords().filterNotNull().onEach { waterfalls: List<WaterfallEntity> ->
-            waterfalls.forEach { waterfall: WaterfallEntity ->
+        readAllRecords().forEach { waterfall ->
+//            waterfalls.forEach { waterfall: WaterfallEntity ->
                 if (isWaterfallExpired(waterfall.timestamp)) {
                     // delete from db if expired
                     deleteRecord(waterfall)
                 } else {
                     activeWaterfall = waterfall
-                    return@onEach
+                    return@forEach
                 }
-            }
+//            }
         }
         return activeWaterfall
     }
@@ -45,11 +45,11 @@ internal object WaterfallDataSource {
         LocalWaterfallRepositoryImpl.insertAll(flowList.toLocalEntity())
     }
 
-    private suspend fun readAllRecords(): Flow<List<WaterfallEntity>> {
+    private suspend fun readAllRecords(): List<WaterfallEntity> {
         return LocalWaterfallRepositoryImpl.getAll()
     }
 
-    private suspend fun deleteRecord(waterfall: WaterfallEntity) {
+    suspend fun deleteRecord(waterfall: WaterfallEntity) {
         return LocalWaterfallRepositoryImpl.delete(waterfall)
     }
 
@@ -63,11 +63,6 @@ internal object WaterfallDataSource {
     private suspend fun isWaterfallTableNullOrEmpty(): Boolean {
         return LocalWaterfallRepositoryImpl
             .getAll()
-            .isNullOrEmpty()
-    }
-
-
-    suspend fun isActiveWaterfall(): Boolean {
-        return getActiveWaterfallOrNull() !== null
+            .isEmpty()
     }
 }

@@ -6,7 +6,7 @@ import org.tapsell.sdk.data.local.db.waterfall.WaterfallEntity
 
 
 interface LocalWaterfallsRepository {
-    suspend fun getAll(): Flow<List<WaterfallEntity>>
+    suspend fun getAll(): List<WaterfallEntity>
     suspend fun getItem(id: String): WaterfallEntity?
     suspend fun insertAll(list: List<WaterfallEntity>)
     suspend fun insert(waterfall: WaterfallEntity)

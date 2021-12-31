@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tapsell-Android-Task</string>
+    <string name="request_ad">Request Ad</string>
+    <string name="show_ad">Show Ad</string>
 </resources>

@@ -7,14 +7,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
-    <TextView
-        android:id="@+id/message"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_request_ad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MainFragment"
+        android:text="@string/request_ad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_show_ad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/show_ad"
+        app:layout_constraintEnd_toEndOf="@id/btn_request_ad"
+        app:layout_constraintStart_toStartOf="@id/btn_request_ad"
+        app:layout_constraintTop_toBottomOf="@+id/btn_request_ad" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

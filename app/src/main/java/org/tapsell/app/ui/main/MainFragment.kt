@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.tapsell.app.databinding.FragmentMainBinding
+import org.tapsell.app.ui.base.BaseFragment
 import org.tapsell.sdk.addmediator.AdMediator
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : BaseFragment() {
 
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private var canShowAd = false
 
     companion object {
         fun newInstance() = MainFragment()
@@ -40,6 +41,11 @@ class MainFragment : Fragment() {
         }
 
         binding.btnShowAd.setOnClickListener {
+            if (canShowAd) {
+                snack("You should request ad first")
+                return@setOnClickListener
+            }
+
             showAd()
         }
     }
@@ -47,7 +53,10 @@ class MainFragment : Fragment() {
     private fun requestAd() {
         AdMediator
             .getInstance()
-            .requestAd(requireActivity())
+            .requestAd(requireActivity()) { isSuccess: Boolean ->
+                canShowAd = isSuccess
+                snack(if (isSuccess) "Successful Request Ad" else "Failed Request Ad")
+            }
     }
 
     private fun showAd() {

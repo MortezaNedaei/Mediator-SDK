@@ -1,14 +1,14 @@
 package org.tapsell.sdk.data.local.db.waterfall
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
+import org.tapsell.sdk.utils.Constants
 
 
 @Dao
 interface WaterfallDao {
 
     @Query("SELECT * FROM waterfall")
-    fun getAll(): Flow<List<WaterfallEntity>>
+    fun getAll(): List<WaterfallEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<WaterfallEntity>)
@@ -25,6 +25,6 @@ interface WaterfallDao {
     @Delete
     suspend fun delete(waterfallEntity: WaterfallEntity)
 
-    @Query("Delete FROM waterfall  WHERE timestamp <= datetime('now', '-1 hours')")
+    @Query("Delete FROM waterfall  WHERE strftime('%s', 'now') - timestamp / 1000 >= ${Constants.EPOCH_HOUR_SECONDS}")
     suspend fun deleteAll()
 }

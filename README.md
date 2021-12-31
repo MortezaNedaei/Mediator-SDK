@@ -27,7 +27,7 @@ mediator for various advertisement networks (TapsellAds and UnityAds)
 - Architecture
     - Clean Architecture like
     - Repository pattern
-Testing
+- Testing
     - junit
     - mockk
     - truth

@@ -16,7 +16,7 @@ object LocalWaterfallRepositoryImpl : LocalWaterfallsRepository {
     }
 
 
-    override suspend fun getAll(): Flow<List<WaterfallEntity>> = withContext(Dispatchers.IO) {
+    override suspend fun getAll(): List<WaterfallEntity> = withContext(Dispatchers.IO) {
         dao.getAll()
     }
 

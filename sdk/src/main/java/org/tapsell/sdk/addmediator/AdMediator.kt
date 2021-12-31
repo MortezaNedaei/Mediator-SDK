@@ -51,20 +51,22 @@ class AdMediator private constructor() : IAdMediator {
 
     }
 
-    override fun requestAd(activity: Activity) {
+    override fun requestAd(activity: Activity, onResult: (Boolean) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             WaterfallDataSource.getActiveWaterfallOrNull()?.let { waterfall: WaterfallEntity ->
                 val adRequestListener = object : IAdRequestListener {
                     override fun onSuccess(response: AdRequestResponse) {
                         Log.i(TAG, "requestAd: Success:${response.toString()}")
                         activeAdRequest = response
+                        onResult(true)
                     }
 
                     override fun onError(e: String) {
                         Log.i(TAG, "Error: requestAd:$e")
                         CoroutineScope(Dispatchers.IO).launch {
                             WaterfallDataSource.deleteRecord(waterfall)
-                            requestAd(activity)
+                            requestAd(activity, onResult)
+                            onResult(false)
                         }
                     }
                 }

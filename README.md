@@ -1,5 +1,8 @@
 # Ad-Mediator-SDK
 
+[![](https://jitpack.io/v/MortezaNedaei/Mediator-SDK.svg)](https://jitpack.io/#MortezaNedaei/Mediator-SDK)
+
+
 ## Description
 
 Ad-Mediator-SDK is an Android library based on modern Android application tech-stacks acts as a
@@ -18,6 +21,8 @@ mediator for various advertisement networks (TapsellAds and UnityAds)
 - [x] UnitTest
 
 ## Install
+implementation 'com.github.MortezaNedaei:Mediator-SDK:1.0.0'
+
 
 ## Tech stack & Open-source libraries
 

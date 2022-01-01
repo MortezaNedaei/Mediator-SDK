@@ -2,7 +2,7 @@ package org.tapsell.app.ui.base
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import org.tapsell.sdk.addmediator.AdMediator
+import org.tapsell.admediator.main.AdMediator
 
 
 @HiltAndroidApp

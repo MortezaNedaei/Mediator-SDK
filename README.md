@@ -1,6 +1,7 @@
 # Ad-Mediator-SDK
 
 [![](https://jitpack.io/v/MortezaNedaei/Mediator-SDK.svg)](https://jitpack.io/#MortezaNedaei/Mediator-SDK)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/58ab8826ce78484c96740365b3fa7eed)](https://www.codacy.com/gh/MortezaNedaei/Mediator-SDK/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=MortezaNedaei/Mediator-SDK&amp;utm_campaign=Badge_Grade)
 
 
 ## Description

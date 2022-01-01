@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import org.tapsell.app.databinding.FragmentMainBinding
 import org.tapsell.app.ui.base.BaseFragment
-import org.tapsell.sdk.addmediator.AdMediator
+import org.tapsell.admediator.main.AdMediator
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment() {
@@ -41,7 +41,7 @@ class MainFragment : BaseFragment() {
         }
 
         binding.btnShowAd.setOnClickListener {
-            if (canShowAd) {
+            if (!canShowAd) {
                 snack("You should request ad first")
                 return@setOnClickListener
             }

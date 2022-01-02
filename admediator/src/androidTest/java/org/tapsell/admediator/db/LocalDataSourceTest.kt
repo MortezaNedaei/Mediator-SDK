@@ -15,6 +15,7 @@ import org.tapsell.admediator.data.local.db.AppDatabase
 import org.tapsell.admediator.data.local.db.waterfall.WaterfallDao
 import org.tapsell.admediator.data.local.db.waterfall.WaterfallEntity
 import org.tapsell.admediator.data.model.enums.AdType
+import org.tapsell.admediator.utils.Constants
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
@@ -54,6 +55,26 @@ class LocalDataSourceTest {
 
         val item = waterfallDao.getItem(AdType.TAPSELL.name)
         Assert.assertNotNull(item)
+    }
+
+    @Test
+    fun shouldSaveItemAndUpdateItemToExpireAndDeleteAllExpires() = runBlocking {
+        val currentTimeEpoch = System.currentTimeMillis()
+        val previousHourAgoEpoch = currentTimeEpoch - Constants.EPOCH_HOUR_MILLISECONDS
+        val waterfall = WaterfallEntity(
+                AdType.TAPSELL.name, AdType.TAPSELL.title, System.currentTimeMillis()
+            )
+        val expiredWaterfall = waterfall.copy(timestamp = previousHourAgoEpoch)
+
+        waterfallDao.insert(waterfall)
+
+        waterfallDao.update(expiredWaterfall)
+
+        waterfallDao.deleteAll() // deleteAll() removes all expired rows (a hour ago)
+
+        // should return null when for expired rows
+        val item = waterfallDao.getItem(AdType.TAPSELL.name)
+        Assert.assertNull(item)
     }
 
     @Test
